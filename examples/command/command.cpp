@@ -294,7 +294,10 @@ int get_weather() {
                 if (json.contains("attributes") && json["attributes"].contains("temperature")) {
                     auto temperature = json["attributes"]["temperature"];
                     std::cout << temperature << "°F" << std::endl;
-                } else {
+		    std::string temp_temperature = temperature.dump();
+                    std::string command = "echo " + temp_temperature + " degrees | /home/hal/dev/piper/piper --model /home/hal/dev/piper/en_US-libritts-high.onnx --output_raw | aplay -r 22050 -f S16_LE -t raw -";
+		    system(command.c_str());
+		} else {
                     std::cout << "Unable to get temperature" << std::endl;
                 }
             } catch (const std::exception& e) {
